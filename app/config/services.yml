@@ -29,7 +29,6 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    # add more services, or override services that need manual wiring
-    # AppBundle\Service\ExampleService:
-    #     arguments:
-    #         $someArgument: 'some_value'
+    strava_user_provider:
+        class: "%strava_user_provider.class%"
+        arguments: ["@doctrine.orm.entity_manager"]
