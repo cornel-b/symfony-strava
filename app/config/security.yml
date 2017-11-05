@@ -7,11 +7,30 @@ security:
         in_memory:
             memory: ~
 
+        strava_provider:
+            id: AppBundle\Security\StravaUserProvider
+
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        secured_area:
+            anonymous: ~
+            provider: strava_provider
+            oauth:
+                resource_owners:
+                    strava:  "/login/check-strava"
+                check_path: /login/check-strava
+                login_path: /login
+                use_forward: false
+                failure_path: /login
+                oauth_user_provider:
+                    service: strava_user_provider
+                    #service: AppBundle\Security\StravaUserProvider
+                    #service: hwi_oauth.user.provider
+                    #service: my.oauth_aware.user_provider.service
 
         main:
             anonymous: ~
@@ -22,3 +41,7 @@ security:
 
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login/check-strava, roles: IS_AUTHENTICATED_ANONYMOUSLY }

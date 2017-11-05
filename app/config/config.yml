@@ -67,3 +67,11 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+hwi_oauth:
+    firewall_names: [secured_area]
+    resource_owners:
+        strava:
+            type: strava
+            client_id: 123
+            client_secret: 'asd'
