@@ -31,7 +31,6 @@ class StravaUserProvider implements UserProviderInterface, OAuthAwareUserProvide
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
         $stravaId = $response->getUsername();
-
         $currentUser = $this->em->getRepository('AppBundle:User')->findOneByStravaId($stravaId);
 
         // return found user, or create new account
@@ -39,8 +38,37 @@ class StravaUserProvider implements UserProviderInterface, OAuthAwareUserProvide
             return $currentUser;
         } else {
 
-            // create new user
-            // return $user;
+            $userInfo = $response->getResponse();
+            $stravaId = $response->getUsername();
+            $stravaToken = $response->getAccessToken();
+            $email = $response->getEmail();
+            $firstName = $userInfo['firstname'];
+            $lastName =  $userInfo['lastname'];
+            $displayName = "$firstName $lastName";
+            $city = $userInfo['city'];
+            $state = $userInfo['state'];
+            $country = $userInfo['country'];
+            $gender = $userInfo['sex'];
+
+            $user = new User;
+            $user->setStravaId($stravaId);
+            $user->setStravaToken($stravaToken);
+            $user->setEmail($email);
+            $user->setPassword('testmeup');
+            $user->setFirstName($firstName);
+            $user->setLastName($lastName);
+            $user->setDisplayName($displayName);
+            $user->setCity($city);
+            $user->setState($state);
+            $user->setCountry($country);
+            $user->setGender($gender);
+            $user->setCreatedAt(new \DateTime('now'));
+            $user->setUpdatedAt(new \DateTime('now'));
+
+            $this->em->persist($user);
+            $this->em->flush();
+
+            return $user;
         }
     }
 
