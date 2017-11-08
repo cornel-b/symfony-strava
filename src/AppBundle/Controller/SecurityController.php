@@ -19,7 +19,7 @@ class SecurityController extends Controller
     {
         $this->get('security.token_storage')->setToken(null);
 
-        return $this->redirectToRoute('dashboard');
+        return $this->redirectToRoute('homepage');
     }
 
 

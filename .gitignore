@@ -3,3 +3,4 @@ vendor
 .idea/*
 var
 /app/config/parameters.yml
+/app/bootstrap.php.cache
