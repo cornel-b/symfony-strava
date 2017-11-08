@@ -2,3 +2,4 @@ logs
 vendor
 .idea/*
 var
+/app/config/parameters.yml
